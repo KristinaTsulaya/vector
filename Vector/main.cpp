@@ -58,6 +58,14 @@ public:
         
         return *this;
     }
+    const T& operator[](int index) const{
+        if (index >= 0 && index < size)
+            return array[index];
+    }
+    T& operator[](int index) {
+//        if (index >= 0 && index < size)
+            return array[index];
+    }
 
     void reserve(size_t n) {
         if (capacity >= n) {
@@ -101,20 +109,26 @@ public:
     
     void push_back(const T& value) {
         if (capacity == size) {
-            reserve(2 * size);
+            if (size == 0){
+                reserve(size + 1);
+            }
+            else if (size > 0){
+                reserve(size * 2);
+            }
         }
         new (array + size) T(value);
+        ++size;
     }
     
     void pop_back() {
         --size;
     }
     
-    int get_capacity() {
+    size_t get_capacity() {
         return capacity;
     }
     
-    int get_size() {
+    size_t get_size() {
         return size;
     }
     
@@ -130,12 +144,20 @@ public:
 
 int main() {
     Vector<int> v;
-        v.reserve(16);
-        for (int i = 0; i < 16; ++i) {
-            int value;
-            cin >> value;
-            v.push_back(value);
-        }
+    int v_size;
+    
+    cin >> v_size;
+    
+    for (int i = 0; i < v_size; ++i) {
+        int value;
+        cin >> value;
+        v.push_back(value);
+    }
+    
+    for(int i = 0; i < v_size; ++i ){
+        cout << v[i] << endl;
+    }
+    
     return 0;
 }
 
